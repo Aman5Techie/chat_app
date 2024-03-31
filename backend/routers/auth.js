@@ -13,4 +13,8 @@ router.post("/register",register_middleware,controllers.register_controller)
 
 router.post("/login",login_middleware,controllers.login_controller);
 
+router.post("/setAvatar/:id",controllers.setAvatar);
+
+router.get("/getAvatar",controllers.send_Avatar_controller);
+
 module.exports = router;
