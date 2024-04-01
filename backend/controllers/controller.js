@@ -7,9 +7,16 @@ const basic_controller = (req, res) => {
 // Registration
 const register_controller = async (req, res) => {
   const data = req.body;
+  const api = "https://api.multiavatar.com/45678945";
+  const image = await axios.get(api);
+  const buffer = new Buffer(image.data);
+  const updatedata = {
+    ...data,
+    avatarImage : buffer.toString("base64")
+  }
 
   try {
-    const user_created = await User.create(data);
+    const user_created = await User.create(updatedata);
     res.json({
       msg: "Created Successfully",
       status: true,
@@ -94,7 +101,17 @@ const allUsers = async (req, res) => {
   }
 };
 
+const curr_user = async(req,res)=>{
+  const current_user = req.params.id;
+  const user = await User.find({username:current_user});
+  res.send({
+    status : true,
+    user
+  })
+}
+
 module.exports = {
+  curr_user,
   allUsers,
   setAvatar,
   basic_controller,
