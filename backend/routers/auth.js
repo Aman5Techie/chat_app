@@ -17,4 +17,6 @@ router.post("/setAvatar/:id",controllers.setAvatar);
 
 router.get("/getAvatar",controllers.send_Avatar_controller);
 
+router.get("/allusers/:id",controllers.allUsers);
+
 module.exports = router;
