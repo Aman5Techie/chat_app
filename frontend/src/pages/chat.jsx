@@ -6,10 +6,13 @@ import { getcontacts } from "../utils/ApiRoutes";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import Contacts from "../components/contacts";
+import Welcome from "../components/Welcome";
+import ChatContainer from "../components/chat_container";
 
 function Chat() {
   const [contacts, setcontacts] = useState([]);
   const [user, setUser] = useState(undefined);
+  const [currentselected , setcurrentselected] = useState(undefined);
   const navigate = useNavigate();
 
   async function getusers() {
@@ -37,12 +40,20 @@ function Chat() {
     getusers();
   }, [user]);
 
+  const handlecurrentchat = (chat)=>{
+    setcurrentselected(chat)
+  }
+
   return (
       <Container>
     {
         user !== undefined &&
         <div className="container">
-        <Contacts contacts={contacts} currentuser={user}></Contacts>
+        <Contacts contacts={contacts} currentuser={user} changechat = {handlecurrentchat}></Contacts>
+        {
+          currentselected==undefined?( <Welcome currentuser={user} />):(<ChatContainer  currentuser={user} />)
+        }
+       
       </div>
     }
     </Container>
@@ -58,9 +69,10 @@ const Container = styled.div`
   gap: 1rem;
   align-items: center;
   background-color: #131324;
+  height : 40rem;
   .container {
     height: 85vh;
-    width: 85vw;
+    width: 76vw;
     background-color: #00000076;
     display: grid;
     grid-template-columns: 25% 75%;

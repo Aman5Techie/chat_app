@@ -1,10 +1,11 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import styled from "styled-components";
 import { getuser } from "../utils/ApiRoutes";
 import Logo from "../assets/logo.svg";
+import { PropTypes } from "prop-types";
 
-const Contacts = ({ contacts, currentuser }) => {
+const Contacts = ({ contacts, currentuser,changechat }) => {
   const [currentusername, setusername] = useState(undefined);
   const [currentuserImage, setuserImage] = useState(undefined);
   const [currentselecteduser, setselectuser] = useState(undefined);
@@ -23,7 +24,10 @@ const Contacts = ({ contacts, currentuser }) => {
     getUser();
   }, [currentusername]);
 
-  const chanegCurrentChat = (index, contact) => {};
+  const chanegCurrentChat = (index, contact) => {
+    setselectuser(index);
+    changechat(contact)
+  };
 
   return (
     <Container>
@@ -39,6 +43,7 @@ const Contacts = ({ contacts, currentuser }) => {
                 index == currentselecteduser ? "Selected" : ""
               }`}
               key={index}
+              onClick={()=>{chanegCurrentChat(index,contact)}}
             >
               <div className="avatar">
                 <img
@@ -46,7 +51,7 @@ const Contacts = ({ contacts, currentuser }) => {
                   alt="avatar"
                 ></img>
               </div>
-              <div className="username">{contact.username}</div>
+              <div className="username"><h3>{contact.username}</h3></div>
             </div>
           );
         })}
@@ -64,10 +69,17 @@ const Contacts = ({ contacts, currentuser }) => {
   );
 };
 
+Contacts.propTypes = {
+  contacts : PropTypes.any,
+  currentuser : PropTypes.any,
+  changechat : PropTypes.any,
+}
+
 const Container = styled.div`
   display: grid;
   grid-template-rows: 10% 75% 15%;
   overflow: hidden;
+ 
   background-color: #080420;
   .brand {
     display: flex;
@@ -89,6 +101,15 @@ const Container = styled.div`
     align-items: center;
     overflow: auto;
     gap: 0.8rem;
+    &::-webkit-scrollbar{
+      width: 0.4rem;
+      &-thumb{
+        background-color: #ffffff39;
+        width: 0.1rem;
+        border-radius: 0.1rem;
+
+      }
+    }
     .contact{
         background-color: #ffffff39;
         min-height: 5rem;

@@ -7,7 +7,8 @@ const basic_controller = (req, res) => {
 // Registration
 const register_controller = async (req, res) => {
   const data = req.body;
-  const api = "https://api.multiavatar.com/45678945";
+  const num = Math.random()*100;
+  const api = `https://api.multiavatar.com/4567894/${num}`;
   const image = await axios.get(api);
   const buffer = new Buffer(image.data);
   const updatedata = {
