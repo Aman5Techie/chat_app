@@ -3,7 +3,9 @@ import Picker from "emoji-picker-react";
 import { IoMdSend } from "react-icons/io";
 import { BsEmojiSmileFill } from "react-icons/bs";
 import { useState } from "react";
-const ChatInput = () => {
+import { PropTypes } from "prop-types";
+
+const ChatInput = ({handlesendmessage}) => {
   const [showemojipicker, setemojipicker] = useState(false);
   const [msg, setmsg] = useState("");
 
@@ -11,11 +13,18 @@ const ChatInput = () => {
     setemojipicker(!showemojipicker);
   };
 
-  const handleEmojiclicker = (emoji, event) => {
- 
+  const handleEmojiclicker = (emoji) => {
     let message = msg;
     message += emoji.emoji;
     setmsg(message);
+  };
+
+  const sendChat = (event) => {
+    event.preventDefault();
+    if (msg.length > 0) {
+      handlesendmessage(msg);
+      setmsg("");
+    }
   };
 
   return (
@@ -25,15 +34,16 @@ const ChatInput = () => {
           <BsEmojiSmileFill onClick={handleEmojiPickerhandler} />
           {showemojipicker && (
             <Picker
-                style={{position: " absolute", top: "-451px", width : "372px"}}
-              pickerStyle={{ }}
-              onEmojiClick={handleEmojiclicker}
-              
+              style={{ position: " absolute", top: "-451px", width: "372px" }}
+              pickerStyle={{}}
+              onEmojiClick={(emoji) => {
+                handleEmojiclicker(emoji);
+              }}
             />
           )}
         </div>
       </div>
-      <form className="input-container">
+      <form className="input-container" onSubmit={(e)=>{sendChat(e);}}>
         <input
           type="text"
           placeholder="Type your message here"
@@ -47,6 +57,10 @@ const ChatInput = () => {
     </Container>
   );
 };
+
+ChatInput.propTypes = {
+  handlesendmessage : PropTypes.func
+}
 
 const Container = styled.div`
   grid-template-columns: 5% 95%;

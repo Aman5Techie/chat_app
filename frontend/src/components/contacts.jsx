@@ -10,7 +10,6 @@ const Contacts = ({ contacts, currentuser,changechat }) => {
   const [currentuserImage, setuserImage] = useState(undefined);
   const [currentselecteduser, setselectuser] = useState(undefined);
   const getUser = async () => {
-    console.log(currentuser);
     const { data } = await axios.get(`${getuser}/${currentuser}`);
     if (data.status) {
       setuserImage(data.user[0].avatarImage);

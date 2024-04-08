@@ -12,11 +12,10 @@ import ChatContainer from "../components/chat_container";
 function Chat() {
   const [contacts, setcontacts] = useState([]);
   const [user, setUser] = useState(undefined);
-  const [currentselected , setcurrentselected] = useState(undefined);
+  const [currentselected, setcurrentselected] = useState(undefined);
   const navigate = useNavigate();
 
   async function getusers() {
-    console.log(user);
     const { data } = await axios.get(
       `${getcontacts}/${localStorage.getItem("chat-app-user")}`
     );
@@ -40,22 +39,26 @@ function Chat() {
     getusers();
   }, [user]);
 
-  const handlecurrentchat = (chat)=>{
-    setcurrentselected(chat)
-  }
+  const handlecurrentchat = (chat) => {
+    setcurrentselected(chat);
+  };
 
   return (
-      <Container>
-    {
-        user !== undefined &&
+    <Container>
+      {user !== undefined && (
         <div className="container">
-        <Contacts contacts={contacts} currentuser={user} changechat = {handlecurrentchat}></Contacts>
-        {
-          currentselected==undefined?( <Welcome currentuser={user} />):(<ChatContainer  currentuser={user} />)
-        }
-       
-      </div>
-    }
+          <Contacts
+            contacts={contacts}
+            currentuser={user}
+            changechat={handlecurrentchat}
+          ></Contacts>
+          {currentselected == undefined ? (
+            <Welcome currentuser={user} />
+          ) : (
+            <ChatContainer currentuser={user} anotheruser={currentselected} />
+          )}
+        </div>
+      )}
     </Container>
   );
 }
@@ -69,7 +72,7 @@ const Container = styled.div`
   gap: 1rem;
   align-items: center;
   background-color: #131324;
-  height : 40rem;
+  height: 40rem;
   .container {
     height: 85vh;
     width: 76vw;

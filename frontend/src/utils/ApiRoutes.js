@@ -6,3 +6,5 @@ export const setAvatar = `${host}/api/auth/setAvatar`
 export const getAvatar = `${host}/api/auth/getAvatar`
 export const getcontacts = `${host}/api/auth/allusers`
 export const getuser = `${host}/api/auth/user`
+export const addmessages = `${host}/api/messages/addmsg`
+export const getmessages = `${host}/api/messages/getmsg`
